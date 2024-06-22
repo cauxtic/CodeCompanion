@@ -1,0 +1,325 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { FaUserCircle, FaTrophy, FaStar } from 'react-icons/fa';
+import { SiCodeforces, SiCodechef, SiLeetcode, SiGeeksforgeeks } from 'react-icons/si';
+
+axios.defaults.withCredentials = true;
+
+const api = "http://localhost:5000/api/data";
+
+const Dashboard = () => {
+  const [profiles, setProfiles] = useState({});
+  const [codeforcesData, setCodeforcesData] = useState({});
+  const [codechefData, setCodechefData] = useState({});
+  const [leetcodeData, setLeetcodeData] = useState({});
+  const [gfgData, setGfgData] = useState({});
+  const [gfgPOTD, setGfgPOTD] = useState({});
+  const [leetcodePOTD, setLeetcodePOTD] = useState({});
+  const [codechefContests, setCodechefContests] = useState({});
+  const [codeforcesContests, setCodeforcesContests] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const profileResponse = await axios.get(`${api}/profile`);
+        setProfiles(profileResponse.data);
+      } catch (error) {
+        console.error('Error fetching profile data:', error);
+        setProfiles({ error: 'Could not fetch profile data' });
+      }
+
+      try {
+        const codeforcesResponse = await axios.get(`${api}/codeforces`);
+        setCodeforcesData(codeforcesResponse.data);
+      } catch (error) {
+        console.error('Error fetching Codeforces data:', error);
+        setCodeforcesData({ error: 'Could not fetch Codeforces data' });
+      }
+
+      try {
+        const codechefResponse = await axios.get(`${api}/codechef`);
+        setCodechefData(codechefResponse.data);
+      } catch (error) {
+        console.error('Error fetching Codechef data:', error);
+        setCodechefData({ error: 'Could not fetch Codechef data' });
+      }
+
+      try {
+        const leetcodeResponse = await axios.get(`${api}/leetcode`);
+        setLeetcodeData(leetcodeResponse.data);
+      } catch (error) {
+        console.error('Error fetching Leetcode data:', error);
+        setLeetcodeData({ error: 'Could not fetch Leetcode data' });
+      }
+
+      try {
+        const gfgResponse = await axios.get(`${api}/gfg`);
+        setGfgData(gfgResponse.data);
+      } catch (error) {
+        console.error('Error fetching GFG data:', error);
+        setGfgData({ error: 'Could not fetch GFG data' });
+      }
+
+      try {
+        const gfgPOTDResponse = await axios.get(`${api}/gfg/potd`);
+        setGfgPOTD(gfgPOTDResponse.data);
+      } catch (error) {
+        console.error('Error fetching GFG POTD:', error);
+        setGfgPOTD({ error: 'Could not fetch GFG POTD data' });
+      }
+
+      try {
+        const leetcodePOTDResponse = await axios.get(`${api}/leetcode/potd`);
+        setLeetcodePOTD(leetcodePOTDResponse.data);
+      } catch (error) {
+        console.error('Error fetching Leetcode POTD:', error);
+        setLeetcodePOTD({ error: 'Could not fetch Leetcode POTD data' });
+      }
+
+      try {
+        const codechefContestsResponse = await axios.get(`${api}/codechef/contests`);
+        setCodechefContests(codechefContestsResponse.data);
+      } catch (error) {
+        console.error('Error fetching Codechef contests:', error);
+        setCodechefContests({ error: 'Could not fetch Codechef contests data' });
+      }
+
+      try {
+        const codeforcesContestsResponse = await axios.get(`${api}/codeforces/contests`);
+        setCodeforcesContests(codeforcesContestsResponse.data);
+      } catch (error) {
+        console.error('Error fetching Codeforces contests:', error);
+        setCodeforcesContests({ error: 'Could not fetch Codeforces contests data' });
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div className="container mx-auto p-4">
+      <Navbar />
+      <ProfileCard profiles={profiles} />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+        <CodeforcesCard data={codeforcesData} />
+        <CodeforcesContestsCard contests={codeforcesContests} />
+        <CodechefCard data={codechefData} />
+        <CodechefContestsCard contests={codechefContests} />
+        <LeetcodeCard data={leetcodeData} />
+        <GfgCard data={gfgData} />
+        <POTDCard leetcodePOTD={leetcodePOTD} gfgPOTD={gfgPOTD} />
+      </div>
+    </div>
+  );
+};
+
+const Navbar = () => (
+  <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
+    <a href='/dashboard' className="text-2xl font-bold">Dashboard</a>
+    <div>
+      <a href="/land" className="mr-4">Homepage</a>
+      <a href="/logout" className="mr-4">Logout</a>
+    </div>
+  </div>
+);
+
+const ProfileCard = ({ profiles }) => (
+  <div className="bg-gray-200 shadow-md rounded-lg p-4 flex justify-around items-center">
+    <div className="text-xl font-bold flex items-center">
+      <FaUserCircle className="mr-2" /> <a href='/edit'>Profile</a>
+    </div>
+    <div className="flex flex-wrap justify-center">
+      {profiles.error ? (
+        <p className="p-2 text-red-500">{profiles.error}</p>
+      ) : (
+        <>
+          <p className="p-2"><span className="font-bold">LeetCode:</span> {profiles.leetCode}</p>
+          <p className="p-2"><span className="font-bold">Codeforces:</span> {profiles.codeforces}</p>
+          <p className="p-2"><span className="font-bold">Codechef:</span> {profiles.codechef}</p>
+          <p className="p-2"><span className="font-bold">GeeksForGeeks:</span> {profiles.geeksForGeeks}</p>
+        </>
+      )}
+    </div>
+  </div>
+);
+
+const CodeforcesCard = ({ data }) => (
+  <div className="bg-white shadow-md rounded-lg p-4">
+    <a href="https://codeforces.com" target="_blank" rel="noopener noreferrer">
+      <div className="bg-blue-500 text-white p-2 rounded-lg mb-4">
+        <h2 className="text-2xl font-bold text-center"><SiCodeforces className="inline mr-2" /> Codeforces</h2>
+      </div>
+    </a>
+    <div className="flex flex-wrap justify-center">
+      {data.error ? (
+        <p className="p-2 text-red-500">{data.error}</p>
+      ) : (
+        <>
+          <p className="p-2"><span className="font-bold">Country:</span> {data.country}</p>
+          <p className="p-2"><span className="font-bold">Last Online:</span> {new Date(data.lastOnlineTimeSeconds * 1000).toLocaleString()}</p>
+          <p className="p-2"><span className="font-bold">City:</span> {data.city}</p>
+          <p className="p-2"><span className="font-bold">Rating:</span> {data.rating}</p>
+          <p className="p-2"><span className="font-bold">Rank:</span> {data.rank}</p>
+          <p className="p-2"><span className="font-bold">Max Rating:</span> {data.maxRating}</p>
+          <p className="p-2"><span className="font-bold">Max Rank:</span> {data.maxRank}</p>
+          <p className="p-2"><span className="font-bold">Organization:</span> {data.organization}</p>
+        </>
+      )}
+    </div>
+  </div>
+);
+
+const CodeforcesContestsCard = ({ contests }) => (
+  <div className="bg-white shadow-md rounded-lg p-4">
+    <div className="bg-blue-500 text-white p-2 rounded-lg mb-4">
+      <h3 className="text-lg font-bold text-center"><FaTrophy className="inline mr-2" /> Codeforces Contests</h3>
+    </div>
+    <div className="flex flex-wrap justify-center">
+      {contests.error ? (
+        <p className="p-2 text-red-500">{contests.error}</p>
+      ) : (
+        contests && Array.isArray(contests) && contests.slice(0, 3).map((contest, index) => (
+          <div key={index} className="p-2 border-b-2 w-full">
+            <p><span className="font-bold">Name:</span> {contest.name}</p>
+            <p><span className="font-bold">Phase:</span> {contest.phase}</p>
+            <p><span className="font-bold">Type:</span> {contest.type}</p>
+            <p><span className="font-bold">Start Time:</span> {new Date(contest.startTimeSeconds * 1000).toLocaleString()}</p>
+          </div>
+        ))
+      )}
+    </div>
+  </div>
+);
+
+const CodechefCard = ({ data }) => (
+  <div className="bg-white shadow-md rounded-lg p-4">
+    <a href="https://www.codechef.com" target="_blank" rel="noopener noreferrer">
+      <div className="bg-red-500 text-white p-2 rounded-lg mb-4">
+        <h2 className="text-2xl font-bold text-center"><SiCodechef className="inline mr-2" /> Codechef</h2>
+      </div>
+    </a>
+    <div className="flex flex-wrap justify-center">
+      {data.error ? (
+        <p className="p-2 text-red-500">{data.error}</p>
+      ) : (
+        <>
+          <p className="p-2"><span className="font-bold">Name:</span> {data.name}</p>
+          <p className="p-2"><span className="font-bold">Country:</span> {data.country}</p>
+          <p className="p-2"><span className="font-bold">Rating:</span> {data.rating}</p>
+          <p className="p-2"><span className="font-bold">Stars:</span> {data.stars}</p>
+          <p className="p-2"><span className="font-bold">Highest Rating:</span> {data.highest_rating}</p>
+          <p className="p-2"><span className="font-bold">Global Rank:</span> {data.global_rank}</p>
+          <p className="p-2"><span className="font-bold">Country Rank:</span> {data.country_rank}</p>
+        </>
+      )}
+    </div>
+  </div>
+);
+
+const CodechefContestsCard = ({ contests }) => (
+  <div className="bg-white shadow-md rounded-lg p-4">
+    <div className="bg-red-500 text-white p-2 rounded-lg mb-4">
+      <h3 className="text-lg font-bold text-center"><FaTrophy className="inline mr-2" /> Codechef Contests</h3>
+    </div>
+    <div className="flex flex-wrap justify-center">
+      {contests.error ? (
+        <p className="p-2 text-red-500">{contests.error}</p>
+      ) : (
+        contests && Array.isArray(contests) && contests.slice(0, 3).map((contest, index) => (
+          <div key={index} className="p-2 border-b-2 w-full">
+            <p><span className="font-bold">Name:</span> {contest.name}</p>
+            <p><span className="font-bold">Start Date:</span> {contest.start_date}</p>
+            <p><span className="font-bold">End Date:</span> {contest.end_date}</p>
+          </div>
+        ))
+      )}
+    </div>
+  </div>
+);
+
+const LeetcodeCard = ({ data }) => (
+  <div className="bg-white shadow-md rounded-lg p-4">
+    <a href="https://leetcode.com" target="_blank" rel="noopener noreferrer">
+      <div className="bg-yellow-500 text-white p-2 rounded-lg mb-4">
+        <h2 className="text-2xl font-bold text-center"><SiLeetcode className="inline mr-2" /> Leetcode</h2>
+      </div>
+    </a>
+    <div className="flex flex-wrap justify-center">
+      {data.error ? (
+        <p className="p-2 text-red-500">{data.error}</p>
+      ) : (
+        <>
+          <p className="p-2"><span className="font-bold">Total Problems Solved:</span> {data.total_problems_solved}</p>
+          <p className="p-2"><span className="font-bold">Easy Problems Solved:</span> {data.easy_problems_solved}</p>
+          <p className="p-2"><span className="font-bold">Medium Problems Solved:</span> {data.medium_problems_solved}</p>
+          <p className="p-2"><span className="font-bold">Hard Problems Solved:</span> {data.hard_problems_solved}</p>
+          <p className="p-2"><span className="font-bold">Rank:</span> {data.rank}</p>
+          <p className="p-2"><span className="font-bold">Contribution Points:</span> {data.contribution_points}</p>
+          <p className="p-2"><span className="font-bold">Reputation:</span> {data.reputation}</p>
+        </>
+      )}
+    </div>
+  </div>
+);
+
+const GfgCard = ({ data }) => (
+  <div className="bg-white shadow-md rounded-lg p-4">
+    <a href="https://www.geeksforgeeks.org" target="_blank" rel="noopener noreferrer">
+      <div className="bg-green-500 text-white p-2 rounded-lg mb-4">
+        <h2 className="text-2xl font-bold text-center"><SiGeeksforgeeks className="inline mr-2" /> GeeksForGeeks</h2>
+      </div>
+    </a>
+    <div className="flex flex-wrap justify-center">
+      {data.error ? (
+        <p className="p-2 text-red-500">{data.error}</p>
+      ) : (
+        <>
+          <p className="p-2"><span className="font-bold">Username:</span> {data.username}</p>
+          <p className="p-2"><span className="font-bold">Practice Problems:</span> {data.practice_problems}</p>
+          <p className="p-2"><span className="font-bold">Overall Rank:</span> {data.overall_rank}</p>
+          <p className="p-2"><span className="font-bold">Coding Score:</span> {data.coding_score}</p>
+          <p className="p-2"><span className="font-bold">School:</span> {data.school}</p>
+          <p className="p-2"><span className="font-bold">Institute:</span> {data.institute}</p>
+        </>
+      )}
+    </div>
+  </div>
+);
+
+const POTDCard = ({ leetcodePOTD, gfgPOTD }) => (
+  <div className="bg-white shadow-md rounded-lg p-4">
+    <div className="bg-purple-500 text-white p-2 rounded-lg mb-4">
+      <h3 className="text-lg font-bold text-center"><FaStar className="inline mr-2" /> Problems of the Day</h3>
+    </div>
+    <div className="flex flex-wrap justify-center">
+      <div className="w-full md:w-1/2 p-2">
+        <h4 className="text-lg font-bold text-center">Leetcode</h4>
+        {leetcodePOTD.error ? (
+          <p className="p-2 text-red-500">{leetcodePOTD.error}</p>
+        ) : (
+          <>
+            <p className="p-2"><span className="font-bold">Title:</span> {leetcodePOTD.title}</p>
+            <p className="p-2"><span className="font-bold">Difficulty:</span> {leetcodePOTD.difficulty}</p>
+            <p className="p-2"><span className="font-bold">Likes:</span> {leetcodePOTD.likes}</p>
+            <p className="p-2"><span className="font-bold">Dislikes:</span> {leetcodePOTD.dislikes}</p>
+          </>
+        )}
+      </div>
+      <div className="w-full md:w-1/2 p-2">
+        <h4 className="text-lg font-bold text-center">GeeksForGeeks</h4>
+        {gfgPOTD.error ? (
+          <p className="p-2 text-red-500">{gfgPOTD.error}</p>
+        ) : (
+          <>
+            <p className="p-2"><span className="font-bold">Title:</span> {gfgPOTD.title}</p>
+            <p className="p-2"><span className="font-bold">Difficulty:</span> {gfgPOTD.difficulty}</p>
+            <p className="p-2"><span className="font-bold">Likes:</span> {gfgPOTD.likes}</p>
+            <p className="p-2"><span className="font-bold">Dislikes:</span> {gfgPOTD.dislikes}</p>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+);
+
+export default Dashboard;
