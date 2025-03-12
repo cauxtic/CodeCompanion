@@ -12,7 +12,7 @@
         "dest": "server.js",
         "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
         "headers": {
-  "Access-Control-Allow-Origin": "https://code-companion-bdln.vercel.app, http://localhost:3000",
+  "Access-Control-Allow-Origin": "https://code-companion-bdln.vercel.app",
   "Access-Control-Allow-Credentials": "true"
 }
       }
