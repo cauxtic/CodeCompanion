@@ -36,7 +36,9 @@ export default function SignupPage() {
     setError("")
 
     try {
-      const res = await axios.post(`${api_auth}/signup`, formData)
+      const res = await axios.post(`${api_auth}/signup`, formData,  {
+        withCredentials: true, 
+      })
       if (res.status === 200 || res.status === 201) {
         router.push("/dashboard")
       }

@@ -35,9 +35,12 @@ const api_auth = "https://codecompanion-tt6a.onrender.com/api/auth"
     setError("")
 
     const { email, password } = formData
-
     try {
-      const res = await axios.post(`${api_auth}/login`, { email, password })
+      const res = await axios.post(`${api_auth}/login`, 
+        
+        { email, password },  {
+          withCredentials: true, 
+        })
       if (res.status === 200) {
         router.push("/dashboard")
       }

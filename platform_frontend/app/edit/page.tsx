@@ -71,6 +71,8 @@ export default function EditProfilePage() {
         codechef: formValues.codechef,
         leetcode: formValues.leetCode,
         gfg: formValues.geeksForGeeks,
+      },  {
+        withCredentials: true, 
       })
 
       setSuccess("Profile updated successfully!")
