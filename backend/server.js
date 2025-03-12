@@ -14,7 +14,7 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: ['http://localhost:3000'],  // Allow requests from localhost:3000
+    origin: ['https://code-companion-bdln.vercel.app'],  // Allow requests from localhost:3000
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],  // Allow all methods
     credentials: true,  // Allow cookies and authentication headers
 }));
