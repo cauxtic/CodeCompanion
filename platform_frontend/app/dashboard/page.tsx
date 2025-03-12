@@ -44,7 +44,8 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 
 axios.defaults.withCredentials = true
-const api = "http://localhost:5000/api/data"
+const api_data = "https://code-companion-backend.vercel.app/api/data"
+const api_auth = "https://code-companion-backend.vercel.app/api/auth"
 
 // Animation variants
 const fadeIn = {
@@ -221,7 +222,7 @@ export default function Dashboard() {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${api}/logout`)
+      await axios.post(`${api_auth}/logout`)
       setIsLoggedIn(false)
       window.location.href = "/land"
     } catch (error) {
@@ -231,7 +232,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/auth")
+      .get(`${api_auth}`)
       .then((response) => {
         if (response.status === 200) {
           setIsLoggedIn(true)
@@ -246,7 +247,7 @@ export default function Dashboard() {
     const fetchData = async () => {
       setLoading(true)
       try {
-        const profileResponse = await axios.get(`${api}/profile`)
+        const profileResponse = await axios.get(`${api_data}/profile`)
         setProfiles(profileResponse.data)
       } catch (error) {
         console.error("Error fetching profile data:", error)
@@ -254,7 +255,7 @@ export default function Dashboard() {
       }
 
       try {
-        const codeforcesResponse = await axios.get(`${api}/codeforces`)
+        const codeforcesResponse = await axios.get(`${api_data}/codeforces`)
         setCodeforcesData(codeforcesResponse.data)
       } catch (error) {
         console.error("Error fetching Codeforces data:", error)
@@ -262,7 +263,7 @@ export default function Dashboard() {
       }
 
       try {
-        const codechefResponse = await axios.get(`${api}/codechef`)
+        const codechefResponse = await axios.get(`${api_data}/codechef`)
         setCodechefData(codechefResponse.data)
       } catch (error) {
         console.error("Error fetching Codechef data:", error)
@@ -270,7 +271,7 @@ export default function Dashboard() {
       }
 
       try {
-        const leetcodeResponse = await axios.get(`${api}/leetcode`)
+        const leetcodeResponse = await axios.get(`${api_data}/leetcode`)
         setLeetcodeData(leetcodeResponse.data)
       } catch (error) {
         console.error("Error fetching Leetcode data:", error)
@@ -278,7 +279,7 @@ export default function Dashboard() {
       }
 
       try {
-        const gfgResponse = await axios.get(`${api}/gfg`)
+        const gfgResponse = await axios.get(`${api_data}/gfg`)
         setGfgData(gfgResponse.data)
       } catch (error) {
         console.error("Error fetching GFG data:", error)
@@ -286,7 +287,7 @@ export default function Dashboard() {
       }
 
       try {
-        const gfgPOTDResponse = await axios.get(`${api}/gfg/potd`)
+        const gfgPOTDResponse = await axios.get(`${api_data}/gfg/potd`)
         setGfgPOTD(gfgPOTDResponse.data)
       } catch (error) {
         console.error("Error fetching GFG POTD:", error)
@@ -294,7 +295,7 @@ export default function Dashboard() {
       }
 
       try {
-        const leetcodePOTDResponse = await axios.get(`${api}/leetcode/potd`)
+        const leetcodePOTDResponse = await axios.get(`${api_data}/leetcode/potd`)
         setLeetcodePOTD(leetcodePOTDResponse.data)
       } catch (error) {
         console.error("Error fetching Leetcode POTD:", error)
@@ -302,7 +303,7 @@ export default function Dashboard() {
       }
 
       try {
-        const codechefContestsResponse = await axios.get(`${api}/codechef/contests`)
+        const codechefContestsResponse = await axios.get(`${api_data}/codechef/contests`)
         setCodechefContests(codechefContestsResponse.data)
       } catch (error) {
         console.error("Error fetching Codechef contests:", error)
@@ -310,7 +311,7 @@ export default function Dashboard() {
       }
 
       try {
-        const codeforcesContestsResponse = await axios.get(`${api}/codeforces/contests`)
+        const codeforcesContestsResponse = await axios.get(`${api_data}/codeforces/contests`)
         setCodeforcesContests(codeforcesContestsResponse.data)
       } catch (error) {
         console.error("Error fetching Codeforces contests:", error)

@@ -14,8 +14,8 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:3000', // Replace with your frontend domain
-    credentials: true,
+    origin: '*',  // Allows all domains
+    credentials: true,  // If you don't need credentials, set this to false
 }));
 
 // Define Routes

@@ -17,6 +17,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
 
+const api_data = "https://code-companion-backend.vercel.app/api/data"
+const api_auth = "https://code-companion-backend.vercel.app/api/auth"
+
 export default function EditProfilePage() {
   const router = useRouter()
   const [formValues, setFormValues] = useState({
@@ -33,7 +36,7 @@ export default function EditProfilePage() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/data/profile")
+        const response = await axios.get(`${api_data}/profile`)
         setFormValues({
           leetCode: response.data.leetCode || "",
           codeforces: response.data.codeforces || "",
@@ -63,7 +66,7 @@ export default function EditProfilePage() {
     setSuccess("")
 
     try {
-      await axios.post("http://localhost:5000/api/data/usernames", {
+      await axios.post(`${api_data}/usernames`, {
         codeforces: formValues.codeforces,
         codechef: formValues.codechef,
         leetcode: formValues.leetCode,

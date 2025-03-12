@@ -26,6 +26,9 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
+const api_data = "https://code-companion-backend.vercel.app/api/data"
+const api_auth = "https://code-companion-backend.vercel.app/api/auth"
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -34,7 +37,7 @@ export default function LoginPage() {
     const { email, password } = formData
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/login", { email, password })
+      const res = await axios.post(`${api_auth}/login`, { email, password })
       if (res.status === 200) {
         router.push("/dashboard")
       }

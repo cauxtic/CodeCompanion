@@ -15,6 +15,10 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
+
+const api_data = "https://code-companion-backend.vercel.app/api/data"
+const api_auth = "https://code-companion-backend.vercel.app/api/auth"
+
 export default function SignupPage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
@@ -32,7 +36,7 @@ export default function SignupPage() {
     setError("")
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", formData)
+      const res = await axios.post(`${api_auth}/signup`, formData)
       if (res.status === 200 || res.status === 201) {
         router.push("/dashboard")
       }

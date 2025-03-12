@@ -12,6 +12,10 @@ import { SiCodechef, SiCodeforces, SiGeeksforgeeks, SiLeetcode } from "react-ico
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
+
+const api_data = "https://code-companion-backend.vercel.app/api/data"
+const api_auth = "https://code-companion-backend.vercel.app/api/auth"
+
 export default function LandingPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -21,7 +25,7 @@ export default function LandingPage() {
     const checkAuthStatus = async () => {
       try {
         // Include credentials to make sure cookies are sent
-        const response = await axios.get("http://localhost:5000/api/auth", {
+        const response = await axios.get(`${api_auth}`, {
           withCredentials: true
         })
         if (response.status === 200) {
@@ -59,7 +63,7 @@ export default function LandingPage() {
   const handleLogout = async (e: React.MouseEvent) => {
     e.preventDefault()
     try {
-      await axios.post("http://localhost:5000/api/auth/logout", {}, {
+      await axios.post(`${api_auth}/logout`, {}, {
         withCredentials: true // Include credentials to make sure cookies are sent
       })
       setIsLoggedIn(false)
