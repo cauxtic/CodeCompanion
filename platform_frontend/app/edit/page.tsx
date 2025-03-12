@@ -17,6 +17,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Separator } from "@/components/ui/separator"
 
+axios.defaults.withCredentials = true
 const api_data = "https://codecompanion-tt6a.onrender.com/api/data"
 const api_auth = "https://codecompanion-tt6a.onrender.com/api/auth"
 
@@ -36,7 +37,9 @@ export default function EditProfilePage() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await axios.get(`${api_data}/profile`)
+        const response = await axios.get(`${api_data}/profile`,{
+          withCredentials: true, 
+        })
         setFormValues({
           leetCode: response.data.leetCode || "",
           codeforces: response.data.codeforces || "",

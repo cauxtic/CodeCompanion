@@ -12,7 +12,7 @@ import { SiCodechef, SiCodeforces, SiGeeksforgeeks, SiLeetcode } from "react-ico
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-
+axios.defaults.withCredentials = true
 const api_data = "https://codecompanion-tt6a.onrender.com/api/data"
 const api_auth = "https://codecompanion-tt6a.onrender.com/api/auth"
 

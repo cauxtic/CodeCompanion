@@ -220,9 +220,16 @@ export default function Dashboard() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [loading, setLoading] = useState(true)
 
+
+  useEffect(() => {
+    axios.defaults.withCredentials = true
+  }, [])
+
   const handleLogout = async () => {
     try {
-      await axios.post(`${api_auth}/logout`)
+      await axios.post(`${api_auth}/logout`, {}, {
+        withCredentials: true, 
+      })
       setIsLoggedIn(false)
       window.location.href = "/land"
     } catch (error) {
