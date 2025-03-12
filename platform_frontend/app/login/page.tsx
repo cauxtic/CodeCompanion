@@ -26,8 +26,8 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
-const api_data = "https://code-companion-backend.vercel.app/api/data"
-const api_auth = "https://code-companion-backend.vercel.app/api/auth"
+const api_data = "https://codecompanion-tt6a.onrender.com/api/data"
+const api_auth = "https://codecompanion-tt6a.onrender.com/api/auth"
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

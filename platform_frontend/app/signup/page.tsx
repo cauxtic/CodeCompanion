@@ -16,8 +16,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
 
-const api_data = "https://code-companion-backend.vercel.app/api/data"
-const api_auth = "https://code-companion-backend.vercel.app/api/auth"
+const api_data = "https://codecompanion-tt6a.onrender.com/api/data"
+const api_auth = "https://codecompanion-tt6a.onrender.com/api/auth"
 
 export default function SignupPage() {
   const router = useRouter()
