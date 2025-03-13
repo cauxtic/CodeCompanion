@@ -14,7 +14,7 @@ connectDB();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: ['https://algonest.vercel.app/land'],  // Allow requests from localhost:3000
+    origin: ['https://algonest.vercel.app'],  // Allow requests from localhost:3000
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],  // Allow all methods
     credentials: true,  // Allow cookies and authentication headers
 }));
