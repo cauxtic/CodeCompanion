@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const cookieOptions = {
     httpOnly: true,
-    sameSite: 'Strict',
+    sameSite: 'None',
     maxAge: 3600000, // 1 hour
 };
 
